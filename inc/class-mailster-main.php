@@ -116,7 +116,7 @@ class Mailster_Main {
 	private function init_hooks(): void {
 
 		// Register checkout field
-		add_action('init', [$this, 'register_checkout_field'], 20);
+		add_filter('wu_checkout_field_types', [$this, 'register_checkout_field']);
 
 		// Customer creation hook (for immediate timing)
 		// Note: wu_customer_post_save fires on both create and update, with $new parameter indicating if new
@@ -129,17 +129,15 @@ class Mailster_Main {
 
 	/**
 	 * Register Mailster opt-in checkout field.
+	 *
+	 * @param array $fields Existing checkout field types.
+	 * @return array Modified field types.
 	 */
-	public function register_checkout_field(): void {
+	public function register_checkout_field(array $fields): array {
 
-		if (! function_exists('wu_register_field_type')) {
-			return;
-		}
+		$fields['mailster_optin'] = \WP_Ultimo\Mailster\Checkout\Mailster_Optin_Field::class;
 
-		wu_register_field_type(
-			'mailster_optin',
-			'\\WP_Ultimo\\Mailster\\Checkout\\Mailster_Optin_Field'
-		);
+		return $fields;
 	}
 
 	/**
