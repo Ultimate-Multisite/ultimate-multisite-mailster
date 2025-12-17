@@ -1,7 +1,6 @@
 {
-  "version": "1.0.0",
-  "name": "ultimate-multisite-addon-template",
-  "title": "Multisite Ultimate - Mailster Integration",
+  "name": "ultimate-multisite-mailster",
+  "title": "Ultimate Multisite: Mailster Integration",
   "homepage": "https://multisiteultimate.com/",
   "authors": [{
     "name": "David Stone",
@@ -9,11 +8,10 @@
   }],
   "repository": {
     "type": "git",
-    "url": "git://github.com/superdav/wp-multisite-waas.git"
+    "url": "git://github.com/multisite-ultimate/ultimate-multisite-mailster.git"
   },
   "devDependencies": {
     "clean-css-cli": "^5.6.3",
-    "npm-run-all": "^4.1.5",
     "uglify-js": "^3.19.3"
   },
   "config": {
@@ -22,18 +20,10 @@
   "scripts": {
     "test": "vendor/bin/phpunit",
     "test:watch": "vendor/bin/phpunit --testdox",
-    "prebuild": "npm run makepot && composer install -o --no-dev",
-    "prebuild:dev": "composer install",
-    "copylibs": "node scripts/copy-libs.js",
-    "build": "npm run copylibs && npm run uglify && npm run cleancss && npm run archive",
-    "build:dev": "npm run copylibs && npm run uglify && npm run cleancss && npm run makepot",
-    "prearchive": "php encrypt-sectrets.php",
-    "archive": "node scripts/archive.js",
-    "postarchive": "node scripts/post-archive.js",
-    "preuglify": "node scripts/clean-js.js",
-    "uglify": "node scripts/uglify.js",
-    "precleancss": "node scripts/clean-css.js",
-    "cleancss": "node scripts/cleancss.js",
-    "makepot": "node scripts/makepot.js"
+    "prebuild": "composer install -o --no-dev",
+    "build": "npm run archive",
+    "archive": "composer archive --file=$npm_package_name --format=zip",
+    "postarchive": "rm -rf $npm_package_name && unzip $npm_package_name.zip -d $npm_package_name && rm $npm_package_name.zip && zip -r $npm_package_name.zip $npm_package_name && rm -rf $npm_package_name",
+    "makepot": "wp i18n make-pot ./ lang/$npm_package_name.pot --exclude=node_modules,tests,docs,assets/js/lib,vendor"
   }
 }
