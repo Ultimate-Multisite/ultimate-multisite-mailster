@@ -1,0 +1,19 @@
+name: Trigger Docs Rebuild
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.php'
+      - 'readme.txt'
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger docs rebuild
+        run: |
+          gh workflow run deploy-docs.yml --repo Ultimate-Multisite/docs
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_DISPATCH_TOKEN }}
+
