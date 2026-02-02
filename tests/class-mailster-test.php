@@ -28,9 +28,6 @@ class() Mailster_Test extends Mailster_Base {
 	public function test_addon_initialization() {
 		// Test that addon hooks are registered
 		$this->assertGreaterThan(0, has_action('plugins_loaded'), 'plugins_loaded action should be registered');
-
-		// Test that textdomain is loaded
-		$this->assertTrue(has_action('init', 'WP_Ultimo_Mailster::get_instance()->load_textdomain'), 'Textdomain should be loaded on init');
 	}
 
 	/**

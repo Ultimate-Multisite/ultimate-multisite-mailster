@@ -27,7 +27,8 @@
         "php": ">=7.4.1",
         "ext-json": "*",
         "ext-curl": "*",
-        "automattic/jetpack-autoloader": "^3.0"
+        "automattic/jetpack-autoloader": "^3.0",
+        "wearerequired/traduttore-registry": "^2.0"
     },
     "require-dev": {
         "composer/installers": "^1.9.0",
@@ -50,7 +51,9 @@
             "phpstan/extension-installer": true,
             "php-http/discovery": true,
             "automattic/jetpack-autoloader": true
-        }
+        },
+        "optimize-autoloader": true,
+        "classmap-authoritative": true
     },
     "archive": {
         "exclude": [

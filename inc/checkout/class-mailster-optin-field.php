@@ -134,10 +134,19 @@ class Mailster_Optin_Field extends Base_Signup_Field {
 	public function default_fields() {
 
 		return [
-			'id',
 			'name',
 			'tooltip',
-			'save_as',
+		];
+	}
+	/**
+	 * If you want to force a particular attribute to a value, declare it here.
+	 *
+	 * @return array
+	 */
+	public function force_attributes(): array {
+
+		return [
+			'id' => 'mailster_optin',
 		];
 	}
 

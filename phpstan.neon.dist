@@ -1,0 +1,77 @@
+parameters:
+  level: 2
+  inferPrivatePropertyTypeFromConstructor: true
+  treatPhpDocTypesAsCertain: false
+  bootstrapFiles:
+    - vendor/szepeviktor/phpstan-wordpress/bootstrap.php
+    - phpstan-bootstrap.php
+  scanDirectories:
+    - ../../ultimate-multisite/inc
+    - ../../ultimate-multisite/vendor/woocommerce/action-scheduler
+    - ../../ultimate-multisite/vendor/berlindb/core/src
+  scanFiles:
+    - ../../ultimate-multisite/inc/functions/admin.php
+    - ../../ultimate-multisite/inc/functions/array-helpers.php
+    - ../../ultimate-multisite/inc/functions/assets.php
+    - ../../ultimate-multisite/inc/functions/broadcast.php
+    - ../../ultimate-multisite/inc/functions/checkout-form.php
+    - ../../ultimate-multisite/inc/functions/checkout.php
+    - ../../ultimate-multisite/inc/functions/color.php
+    - ../../ultimate-multisite/inc/functions/compatiblity.php
+    - ../../ultimate-multisite/inc/functions/countries.php
+    - ../../ultimate-multisite/inc/functions/currency.php
+    - ../../ultimate-multisite/inc/functions/customer.php
+    - ../../ultimate-multisite/inc/functions/danger.php
+    - ../../ultimate-multisite/inc/functions/date.php
+    - ../../ultimate-multisite/inc/functions/debug.php
+    - ../../ultimate-multisite/inc/functions/discount-code.php
+    - ../../ultimate-multisite/inc/functions/documentation.php
+    - ../../ultimate-multisite/inc/functions/domain.php
+    - ../../ultimate-multisite/inc/functions/element.php
+    - ../../ultimate-multisite/inc/functions/email.php
+    - ../../ultimate-multisite/inc/functions/env.php
+    - ../../ultimate-multisite/inc/functions/event.php
+    - ../../ultimate-multisite/inc/functions/financial.php
+    - ../../ultimate-multisite/inc/functions/form.php
+    - ../../ultimate-multisite/inc/functions/fs.php
+    - ../../ultimate-multisite/inc/functions/gateway.php
+    - ../../ultimate-multisite/inc/functions/generator.php
+    - ../../ultimate-multisite/inc/functions/geolocation.php
+    - ../../ultimate-multisite/inc/functions/helper.php
+    - ../../ultimate-multisite/inc/functions/http.php
+    - ../../ultimate-multisite/inc/functions/invoice.php
+    - ../../ultimate-multisite/inc/functions/legacy.php
+    - ../../ultimate-multisite/inc/functions/limitations.php
+    - ../../ultimate-multisite/inc/functions/markup-helpers.php
+    - ../../ultimate-multisite/inc/functions/membership.php
+    - ../../ultimate-multisite/inc/functions/mock.php
+    - ../../ultimate-multisite/inc/functions/model.php
+    - ../../ultimate-multisite/inc/functions/number-helpers.php
+    - ../../ultimate-multisite/inc/functions/options.php
+    - ../../ultimate-multisite/inc/functions/pages.php
+    - ../../ultimate-multisite/inc/functions/payment.php
+    - ../../ultimate-multisite/inc/functions/product.php
+    - ../../ultimate-multisite/inc/functions/reflection.php
+    - ../../ultimate-multisite/inc/functions/rest.php
+    - ../../ultimate-multisite/inc/functions/scheduler.php
+    - ../../ultimate-multisite/inc/functions/session.php
+    - ../../ultimate-multisite/inc/functions/settings.php
+    - ../../ultimate-multisite/inc/functions/site-context.php
+    - ../../ultimate-multisite/inc/functions/site.php
+    - ../../ultimate-multisite/inc/functions/sort.php
+    - ../../ultimate-multisite/inc/functions/string-helpers.php
+    - ../../ultimate-multisite/inc/functions/sunrise.php
+    - ../../ultimate-multisite/inc/functions/tax.php
+    - ../../ultimate-multisite/inc/functions/template.php
+    - ../../ultimate-multisite/inc/functions/translation.php
+    - ../../ultimate-multisite/inc/functions/url.php
+    - ../../ultimate-multisite/inc/functions/user.php
+    - ../../ultimate-multisite/inc/functions/webhook.php
+  paths:
+    - ./inc
+    - ./ultimate-multisite-mailster.php
+  ignoreErrors:
+    -
+      message: '#Variable \$.* might not be defined.#'
+      path: ./views/*
+      reportUnmatched: false

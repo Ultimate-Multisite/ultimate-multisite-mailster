@@ -11,7 +11,7 @@
  * Network: true
  * Requires Plugins: ultimate-multisite
  * Requires at least: 5.3
- * Tested up to: 6.6
+ * Tested up to: 6.9
  * Requires PHP: 7.4
  */
 
@@ -111,8 +111,7 @@ class WP_Ultimo_Mailster {
 	 */
 	private function init_hooks() {
 
-		// Load textdomain.
-		add_action('init', [$this, 'load_textdomain']);
+		add_action('plugins_loaded', [$this, 'register_translation_updates']);
 	}
 
 	/**
@@ -125,14 +124,13 @@ class WP_Ultimo_Mailster {
 	}
 
 	/**
-	 * Load plugin textdomain.
+	 * Register with Traduttore for automatic translation updates.
 	 */
-	public function load_textdomain() {
-
-		load_plugin_textdomain(
+	public function register_translation_updates() {
+		\Required\Traduttore_Registry\add_project(
+			'plugin',
 			'ultimate-multisite-mailster',
-			false,
-			dirname(plugin_basename(__FILE__)) . '/lang/'
+			'https://translate.ultimatemultisite.com/api/translations/ultimatemultisite/ultimate-multisite-mailster/'
 		);
 	}
 
