@@ -4,7 +4,7 @@ Tags: multisite, mailster, email marketing, newsletter, subscribers
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,10 @@ Absolutely! Enable the double opt-in setting and Mailster will send confirmation
 
 == Changelog ==
 
+= 1.0.1 =
+* Fix: Product-specific Mailster lists were not being applied during signup
+* Changed subscription hook from customer creation to membership creation, ensuring the product/plan is available when resolving lists
+
 = 1.0.0 =
 * Initial release
 * Automatic subscriber sync on signup or payment
@@ -107,6 +111,9 @@ Absolutely! Enable the double opt-in setting and Mailster will send confirmation
 * Detailed logging
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Fixes product-specific Mailster list assignments not working during signup.
 
 = 1.0.0 =
 Initial release of the Ultimate Multisite Mailster Integration addon.

@@ -118,9 +118,11 @@ class Mailster_Main {
 		// Register checkout field
 		add_filter('wu_checkout_field_types', [$this, 'register_checkout_field']);
 
-		// Customer creation hook (for immediate timing)
-		// Note: wu_customer_post_save fires on both create and update, with $new parameter indicating if new
-		add_action('wu_customer_post_save', [$this, 'handle_customer_creation'], 10, 3);
+		// Membership creation hook (for immediate timing)
+		// Note: wu_membership_post_save fires after the membership is saved, so the product is available.
+		// This replaces wu_customer_post_save which fires too early (before the membership linking
+		// the customer to a product exists), causing product-specific lists to never be found.
+		add_action('wu_membership_post_save', [$this, 'handle_membership_creation'], 10, 3);
 
 		// Payment status change hook (for payment complete timing)
 		// Note: wu_transition_payment_status fires when payment status changes
@@ -141,21 +143,34 @@ class Mailster_Main {
 	}
 
 	/**
-	 * Handle customer creation event.
+	 * Handle membership creation event.
 	 *
-	 * @param array                      $data     Customer data array.
-	 * @param \WP_Ultimo\Models\Customer $customer Customer object.
-	 * @param bool                       $is_new   True if customer is new, false if being updated.
+	 * Fires after a membership is saved. At this point both the customer
+	 * and the product (plan) are available on the membership object,
+	 * so product-specific Mailster lists can be resolved.
+	 *
+	 * @param array                        $data       Membership data array.
+	 * @param \WP_Ultimo\Models\Membership $membership Membership object.
+	 * @param bool                         $is_new     True if membership is new, false if being updated.
 	 */
-	public function handle_customer_creation(array $data, $customer, bool $is_new): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+	public function handle_membership_creation(array $data, $membership, bool $is_new): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
-		// Only process for new customers (not updates)
+		// Only process for new memberships (not updates)
 		if (! $is_new) {
 			return;
 		}
 
 		// Only process if timing is set to order_creation
 		if (wu_get_setting('mailster_subscription_timing', 'order_creation') !== 'order_creation') {
+			return;
+		}
+
+		// Get customer from membership
+		$customer = $membership->get_customer();
+
+		if (! $customer) {
+			wu_log_add('mailster', sprintf('Membership %d has no associated customer', $membership->get_id()));
+
 			return;
 		}
 
