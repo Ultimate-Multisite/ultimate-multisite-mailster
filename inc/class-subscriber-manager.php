@@ -84,7 +84,7 @@ class Subscriber_Manager {
 			wu_log_add('mailster', sprintf('Subscriber %s already exists, skipping', $data['email']));
 
 			// Still assign to new lists
-			$this->assign_to_lists($existing->ID, $lists);
+			$this->assign_to_lists($existing->ID, $lists, $double_optin);
 
 			return $existing->ID;
 		}
@@ -137,7 +137,7 @@ class Subscriber_Manager {
 
 			// Assign to lists
 			if (! empty($lists)) {
-				$list_result = $this->assign_to_lists($subscriber_id, $lists);
+				$list_result = $this->assign_to_lists($subscriber_id, $lists, $double_optin);
 
 				if (is_wp_error($list_result)) {
 					wu_log_add(
@@ -176,9 +176,12 @@ class Subscriber_Manager {
 	 *
 	 * @param int   $subscriber_id Subscriber ID.
 	 * @param array $lists Array of list IDs.
+	 * @param bool  $double_optin Whether double opt-in is enabled. When false, list assignments
+	 *                            are immediately confirmed. When true, assignments are pending
+	 *                            until the subscriber confirms via email.
 	 * @return bool|\WP_Error True on success, WP_Error on failure.
 	 */
-	public function assign_to_lists(int $subscriber_id, array $lists) {
+	public function assign_to_lists(int $subscriber_id, array $lists, bool $double_optin = false) {
 
 		// Switch to main site where Mailster is active
 		$main_site_id = get_main_site_id();
@@ -211,7 +214,12 @@ class Subscriber_Manager {
 		}
 
 		try {
-			$result = mailster('subscribers')->assign_lists($subscriber_id, $valid_lists, false);
+			// When double opt-in is disabled, pass $added=true to immediately confirm
+			// the list assignment. Otherwise pass $added=false so Mailster sends a
+			// confirmation email. This prevents Mailster's list_based_opt_in from
+			// overriding our addon's double opt-in setting.
+			$added  = ! $double_optin;
+			$result = mailster('subscribers')->assign_lists($subscriber_id, $valid_lists, false, $added);
 
 			if (is_wp_error($result)) {
 				wu_log_add(

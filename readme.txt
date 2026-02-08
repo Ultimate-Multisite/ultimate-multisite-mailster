@@ -97,11 +97,15 @@ Absolutely! Enable the double opt-in setting and Mailster will send confirmation
 
 == Changelog ==
 
-= 1.0.1 =
+Version 1.0.2 - Released on 2026-XX-XX
+* Fix: Double opt-in setting was not respected — subscribers always received confirmation emails regardless of the addon setting
+* The addon now explicitly controls the list assignment confirmation status, preventing Mailster's own list_based_opt_in from overriding the addon's double opt-in setting
+
+Version 1.0.1 - Released on 2025-12-15
 * Fix: Product-specific Mailster lists were not being applied during signup
 * Changed subscription hook from customer creation to membership creation, ensuring the product/plan is available when resolving lists
 
-= 1.0.0 =
+Version 1.0.0 - Released on 2025-11-01
 * Initial release
 * Automatic subscriber sync on signup or payment
 * Product-specific list assignments
