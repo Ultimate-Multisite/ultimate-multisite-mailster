@@ -97,7 +97,7 @@ Absolutely! Enable the double opt-in setting and Mailster will send confirmation
 
 == Changelog ==
 
-Version 1.0.2 - Released on 2026-XX-XX
+Version 1.0.2 - Released on 2026-02-08
 * Fix: Double opt-in setting was not respected — subscribers always received confirmation emails regardless of the addon setting
 * The addon now explicitly controls the list assignment confirmation status, preventing Mailster's own list_based_opt_in from overriding the addon's double opt-in setting
 

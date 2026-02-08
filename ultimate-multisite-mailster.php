@@ -4,7 +4,7 @@
  * Description: Integrate with Mailster email marketing during checkout
  * Plugin URI: https://multisiteultimate.com
  * Text Domain: ultimate-multisite-mailster
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: David Stone - Multisite Ultimate
  * Author URI: https://multisiteultimate.com
  * Copyright: David Stone, Multisite Ultimate
