@@ -174,7 +174,9 @@ class Mailster_Main {
 			return;
 		}
 
-		$this->subscribe_customer($customer);
+		// Pass the membership directly so we can get the product from it
+		// without relying on the indirect customer -> memberships -> plan lookup
+		$this->subscribe_customer($customer, null, $membership);
 	}
 
 	/**
@@ -214,16 +216,20 @@ class Mailster_Main {
 			return;
 		}
 
-		$this->subscribe_customer($customer, $payment);
+		// Get the membership from the payment to pass directly
+		$membership = $payment->get_membership();
+
+		$this->subscribe_customer($customer, $payment, $membership);
 	}
 
 	/**
 	 * Subscribe customer to Mailster lists.
 	 *
-	 * @param \WP_Ultimo\Models\Customer     $customer Customer object.
-	 * @param \WP_Ultimo\Models\Payment|null $payment Optional payment object.
+	 * @param \WP_Ultimo\Models\Customer        $customer   Customer object.
+	 * @param \WP_Ultimo\Models\Payment|null    $payment    Optional payment object.
+	 * @param \WP_Ultimo\Models\Membership|null $membership Optional membership object.
 	 */
-	private function subscribe_customer($customer, $payment = null): void {
+	private function subscribe_customer($customer, $payment = null, $membership = null): void {
 
 		// Check opt-in requirements
 		if (! $this->customer_opted_in($customer)) {
@@ -240,7 +246,7 @@ class Mailster_Main {
 		}
 
 		// Get lists to subscribe to
-		$lists = $this->get_lists_for_customer($customer, $payment);
+		$lists = $this->get_lists_for_customer($customer, $payment, $membership);
 
 		if (empty($lists)) {
 			wu_log_add(
@@ -312,20 +318,64 @@ class Mailster_Main {
 	/**
 	 * Get lists for customer based on product and global settings.
 	 *
-	 * @param \WP_Ultimo\Models\Customer     $customer Customer object.
-	 * @param \WP_Ultimo\Models\Payment|null $payment Optional payment object.
+	 * @param \WP_Ultimo\Models\Customer        $customer   Customer object.
+	 * @param \WP_Ultimo\Models\Payment|null    $payment    Optional payment object.
+	 * @param \WP_Ultimo\Models\Membership|null $membership Optional membership object.
 	 * @return array Array of list IDs.
 	 */
-	private function get_lists_for_customer($customer, $payment = null): array {
+	private function get_lists_for_customer($customer, $payment = null, $membership = null): array {
 
-		$lists = [];
+		$lists   = [];
+		$product = null;
 
-		// Get product from payment or membership
-		$product = $this->get_product_from_customer($customer, $payment);
+		// 1. Try to get product directly from the membership (most reliable)
+		if ($membership) {
+			$plan_id = $membership->get_plan_id();
+
+			if ($plan_id) {
+				$product = wu_get_product($plan_id);
+
+				wu_log_add(
+					'mailster',
+					sprintf(
+						'Got product %d (%s) directly from membership %d for customer %d',
+						$plan_id,
+						$product ? $product->get_name() : 'NOT FOUND',
+						$membership->get_id(),
+						$customer->get_id()
+					)
+				);
+			}
+		}
+
+		// 2. Fallback: try to get product from payment or customer memberships
+		if (! $product) {
+			$product = $this->get_product_from_customer($customer, $payment);
+
+			wu_log_add(
+				'mailster',
+				sprintf(
+					'Fallback product lookup for customer %d: %s',
+					$customer->get_id(),
+					$product ? sprintf('%d (%s)', $product->get_id(), $product->get_name()) : 'NOT FOUND'
+				)
+			);
+		}
 
 		if ($product) {
 			$product_integration = Product_Integration::get_instance();
 			$product_lists       = $product_integration->get_product_lists($product->get_id());
+
+			wu_log_add(
+				'mailster',
+				sprintf(
+					'Product %d (%s) override=%s, lists=%s',
+					$product->get_id(),
+					$product->get_name(),
+					$product->get_meta('mailster_override_global', false) ? 'yes' : 'no',
+					wp_json_encode($product->get_meta('mailster_lists', []))
+				)
+			);
 
 			// Check if product has Mailster enabled and lists configured
 			if (! empty($product_lists)) {
