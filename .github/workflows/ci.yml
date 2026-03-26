@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  integration-test:
+    uses: Ultimate-Multisite/ultimate-multisite/.github/workflows/addon-integration-test.yml@main
+    with:
+      addon-slug: ultimate-multisite-mailster
+    secrets: inherit
