@@ -40,3 +40,4 @@ package-lock.json
 # Environment
 .env
 .env.local
+.agents/loop-state/
