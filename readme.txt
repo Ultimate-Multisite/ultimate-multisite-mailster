@@ -4,7 +4,7 @@ Tags: multisite, mailster, email marketing, newsletter, subscribers
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,9 @@ Yes! The addon includes checkbox-based opt-in mode where customers must explicit
 Absolutely! Enable the double opt-in setting and Mailster will send confirmation emails before activating subscriptions.
 
 == Changelog ==
+
+Version 1.0.3 - Released on 2026-04-02
+* Fix: Product-specific Mailster lists not assigned during subscription when using certain plan configurations
 
 Version 1.0.2 - Released on 2026-02-08
 * Fix: Double opt-in setting was not respected — subscribers always received confirmation emails regardless of the addon setting

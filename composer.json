@@ -2,7 +2,7 @@
         "name": "ultimate-multisite/ultimate-multisite-mailster",
         "url": "https://MultisiteUltimate.com",
         "description": "Integrate with Mailster email marketing during checkout",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "authors": [
                 {
                         "name": "Arindo Duque",
