@@ -32,7 +32,7 @@ npm-debug.log*
 
 # Lock files (optional - you may want to commit these)
 composer.lock
-package-lock.json
+# package-lock.json is committed so CI can use npm cache (cache: 'npm' requires it)
 
 # Build artifacts
 *.zip
