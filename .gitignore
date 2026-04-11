@@ -41,3 +41,5 @@ composer.lock
 .env
 .env.local
 .agents/loop-state/
+
+.aidevops.json
