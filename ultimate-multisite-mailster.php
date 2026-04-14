@@ -97,8 +97,8 @@ class WP_Ultimo_Mailster {
 	 */
 	private function load_dependencies() {
 
-		// Load Jetpack autoloader - it handles all class loading automatically.
-		if (file_exists(ULTIMATE_MULTISITE_MAILSTER_PLUGIN_DIR . 'vendor/autoload.php')) {
+		// Skip plugin autoloader if Bedrock's root autoloader already loaded dependencies.
+		if (! class_exists('WP_Ultimo\Addons\Mailster\Mailster_Main', false) && file_exists(ULTIMATE_MULTISITE_MAILSTER_PLUGIN_DIR . 'vendor/autoload.php')) {
 			require_once ULTIMATE_MULTISITE_MAILSTER_PLUGIN_DIR . 'vendor/autoload.php';
 		}
 
