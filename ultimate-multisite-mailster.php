@@ -11,7 +11,6 @@
  * Network: true
  * Requires Plugins: ultimate-multisite
  * Requires at least: 5.3
- * Tested up to: 7.0
  * Requires PHP: 7.4
  */
 
