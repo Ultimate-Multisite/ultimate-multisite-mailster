@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Define addon constants.
-const ULTIMATE_MULTISITE_MAILSTER_VERSION     = '1.0.1';
+const ULTIMATE_MULTISITE_MAILSTER_VERSION     = '1.0.4';
 const ULTIMATE_MULTISITE_MAILSTER_PLUGIN_FILE = __FILE__;
 define('ULTIMATE_MULTISITE_MAILSTER_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ULTIMATE_MULTISITE_MAILSTER_PLUGIN_URL', plugin_dir_url(__FILE__));
