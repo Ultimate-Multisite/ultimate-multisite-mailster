@@ -4,7 +4,7 @@ Tags: multisite, mailster, email marketing, newsletter, subscribers
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,10 @@ Yes! The addon includes checkbox-based opt-in mode where customers must explicit
 Absolutely! Enable the double opt-in setting and Mailster will send confirmation emails before activating subscriptions.
 
 == Changelog ==
+
+= 1.0.4 =
+Version 1.0.4 - Released on 2026-08-19
+- Improved: WordPress compatibility metadata now reflects testing through WordPress 7.1.
 
 Version 1.0.3 - Released on 2026-04-02
 * Fix: Product-specific Mailster lists not assigned during subscription when using certain plan configurations
